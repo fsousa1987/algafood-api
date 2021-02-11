@@ -4,18 +4,24 @@ import com.algaworks.algafood.di.modelo.Cliente;
 import com.algaworks.algafood.di.notificacao.Notificador;
 import com.algaworks.algafood.di.notificacao.TipoDoNotificador;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import static com.algaworks.algafood.di.notificacao.NivelUrgencia.SEM_URGENCIA;
 
-@Component
+//@Component
 public class AtivacaoClienteService {
 
-    private final Notificador notificador;
-
     @Autowired
-    public AtivacaoClienteService(@TipoDoNotificador(SEM_URGENCIA) Notificador notificador) {
-        this.notificador = notificador;
+    @TipoDoNotificador(SEM_URGENCIA)
+    private Notificador notificador;
+
+//    @PostConstruct
+    public void init() {
+        System.out.println("INIT " + notificador);
+    }
+
+//    @PreDestroy
+    public void destroy() {
+        System.out.println("DESTROY");
     }
 
     public void ativar(Cliente cliente) {
