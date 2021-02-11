@@ -15,6 +15,7 @@ public class MeuPrimeiroController {
         this.ativacaoClienteService = ativacaoClienteService;
     }
 
+    @SuppressWarnings("SameReturnValue")
     @GetMapping("/hello")
     @ResponseBody
     public String hello() {
