@@ -1,32 +1,23 @@
 package com.algaworks.algafood.di.service;
 
 import com.algaworks.algafood.di.modelo.Cliente;
-import com.algaworks.algafood.di.notificacao.Notificador;
-import com.algaworks.algafood.di.notificacao.TipoDoNotificador;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
 
-import static com.algaworks.algafood.di.notificacao.NivelUrgencia.SEM_URGENCIA;
-
-//@Component
+@Component
 public class AtivacaoClienteService {
 
+    private final ApplicationEventPublisher eventPublisher;
+
     @Autowired
-    @TipoDoNotificador(SEM_URGENCIA)
-    private Notificador notificador;
-
-//    @PostConstruct
-    public void init() {
-        System.out.println("INIT " + notificador);
-    }
-
-//    @PreDestroy
-    public void destroy() {
-        System.out.println("DESTROY");
+    public AtivacaoClienteService(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
     public void ativar(Cliente cliente) {
         cliente.ativar();
 
-        notificador.notificar(cliente, "Seu cadastro no sistema está ativo!");
+        eventPublisher.publishEvent(new ClienteAtivadoEvent(cliente));
     }
 }
