@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 public class Restaurante {
 

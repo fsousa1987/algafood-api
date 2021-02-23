@@ -6,7 +6,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
-@SuppressWarnings("JpaDataSourceORMInspection")
 @Entity
 @Table(name = "tab_cozinhas")
 public class Cozinha {
