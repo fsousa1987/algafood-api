@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+import static com.fasterxml.jackson.annotation.JsonInclude.*;
+
+@JsonInclude(Include.NON_NULL)
 @Getter
 @Builder
 public class Problem {
@@ -13,4 +15,6 @@ public class Problem {
     private final String type;
     private final String title;
     private final String detail;
+
+    private final String userMessage;
 }
