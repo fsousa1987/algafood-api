@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
@@ -26,16 +27,17 @@ import static com.fasterxml.jackson.databind.JsonMappingException.Reference;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // 1. MethodArgumentTypeMismatchException é um subtipo de TypeMismatchException
+    @Override
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
+                                                                   HttpStatus status, WebRequest request) {
 
-    // 2. ResponseEntityExceptionHandler já trata TypeMismatchException de forma mais abrangente
+        ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
+        String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", ex.getRequestURL());
 
-    // 3. Então, especializamos o método handleTypeMismatch e verificamos se a exception
-    //    é uma instância de MethodArgumentTypeMismatchException
+        Problem problem = createProblemBuilder(status, problemType, detail).build();
 
-    // 4. Se for, chamamos um método especialista em tratar esse tipo de exception
-
-    // 5. Poderíamos fazer tudo dentro de handleTypeMismatch, mas preferi separar em outro método
+        return handleExceptionInternal(ex, problem, headers, status, request);
+    }
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
                                                         HttpStatus status, WebRequest request) {
@@ -73,7 +75,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                          WebRequest request) {
 
         HttpStatus status = HttpStatus.NOT_FOUND;
-        ProblemType problemType = ProblemType.ENTIDADE_NAO_ENCONTRADA;
+        ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
         String detail = ex.getMessage();
 
         Problem problem = createProblemBuilder(status, problemType, detail).build();
