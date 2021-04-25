@@ -31,9 +31,11 @@ public class DatabaseCleaner {
 
             checkTestDatabase();
             tryToClearTables();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
+        }
+        finally {
             this.connection = null;
         }
     }
@@ -90,7 +92,8 @@ public class DatabaseCleaner {
         tableNames.forEach(tableName -> {
             try {
                 statement.addBatch(sql("TRUNCATE TABLE " + tableName));
-            } catch (SQLException e) {
+            }
+            catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         });
