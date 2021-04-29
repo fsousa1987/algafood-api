@@ -11,6 +11,13 @@ public class RestauranteModel {
 
     private Long id;
     private String nome;
-    private BigDecimal taxaFrete;
+    private BigDecimal frete;
     private CozinhaModel cozinha;
+
+    /*
+    Origem: cozinha,nome
+    Destino: nome,cozinha
+     */
+    private String nomeCozinha;
+    private Long idCozinha;
 }
