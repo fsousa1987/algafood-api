@@ -1,7 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PedidoModelAssembler;
+import com.algaworks.algafood.api.assembler.PedidoResumoModelAssembler;
 import com.algaworks.algafood.api.model.PedidoModel;
+import com.algaworks.algafood.api.model.PedidoResumoModel;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.EmissaoPedidoService;
@@ -20,19 +22,22 @@ public class PedidoController {
     private final PedidoRepository pedidoRepository;
     private final EmissaoPedidoService emissaoPedido;
     private final PedidoModelAssembler pedidoModelAssembler;
+    private final PedidoResumoModelAssembler pedidoResumoModelAssembler;
 
     @Autowired
     public PedidoController(PedidoRepository pedidoRepository, EmissaoPedidoService emissaoPedido,
-                            PedidoModelAssembler pedidoModelAssembler) {
+                            PedidoModelAssembler pedidoModelAssembler,
+                            PedidoResumoModelAssembler pedidoResumoModelAssembler) {
         this.pedidoRepository = pedidoRepository;
         this.emissaoPedido = emissaoPedido;
         this.pedidoModelAssembler = pedidoModelAssembler;
+        this.pedidoResumoModelAssembler = pedidoResumoModelAssembler;
     }
 
     @GetMapping
-    public List<PedidoModel> listar() {
+    public List<PedidoResumoModel> listar() {
         List<Pedido> todosPedidos = pedidoRepository.findAll();
-        return pedidoModelAssembler.toCollectionModel(todosPedidos);
+        return pedidoResumoModelAssembler.toCollectionModel(todosPedidos);
     }
 
     @GetMapping("/{pedidoId}")
