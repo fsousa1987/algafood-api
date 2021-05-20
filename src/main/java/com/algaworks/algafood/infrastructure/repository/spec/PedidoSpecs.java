@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
 
+@SuppressWarnings("DuplicatedCode")
 public class PedidoSpecs {
 
     public static Specification<Pedido> usandoFiltro(PedidoFilter filtro) {
