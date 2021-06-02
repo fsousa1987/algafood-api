@@ -2,20 +2,17 @@ package com.algaworks.algafood.infrastructure.service.storage;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
 import com.algaworks.algafood.domain.service.FotoStorageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-//@Service
 public class LocalFotoStorageService implements FotoStorageService {
 
-    private final StorageProperties storageProperties;
-
-//    @Autowired
-    public LocalFotoStorageService(StorageProperties storageProperties) {
-        this.storageProperties = storageProperties;
-    }
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public void armazenar(NovaFoto novaFoto) {

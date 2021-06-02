@@ -8,21 +8,18 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.net.URL;
 
-@Service
 public class S3FotoStorageService implements FotoStorageService {
 
-    private final AmazonS3 amazonS3;
-    private final StorageProperties storageProperties;
-
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
     @Autowired
-    public S3FotoStorageService(AmazonS3 amazonS3, StorageProperties storageProperties) {
-        this.amazonS3 = amazonS3;
-        this.storageProperties = storageProperties;
-    }
+    private AmazonS3 amazonS3;
+
+    @SuppressWarnings("SpringJavaAutowiredMembersInspection")
+    @Autowired
+    private StorageProperties storageProperties;
 
     @Override
     public void armazenar(NovaFoto novaFoto) {
