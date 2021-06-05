@@ -7,25 +7,21 @@ import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.internet.MimeMessage;
 
-@Service
+@SuppressWarnings("SpringJavaAutowiredMembersInspection")
 public class SmtpEnvioEmailService implements EnvioEmailService {
 
-    private final JavaMailSender mailSender;
-    private final EmailProperties emailProperties;
-    private final Configuration freemarkerConfig;
+    @Autowired
+    private JavaMailSender mailSender;
 
     @Autowired
-    public SmtpEnvioEmailService(JavaMailSender mailSender, EmailProperties emailProperties,
-                                 Configuration freemarkerConfig) {
-        this.mailSender = mailSender;
-        this.emailProperties = emailProperties;
-        this.freemarkerConfig = freemarkerConfig;
-    }
+    private EmailProperties emailProperties;
+
+    @Autowired
+    private Configuration freemarkerConfig;
 
     @Override
     public void enviar(Mensagem mensagem) {
@@ -47,7 +43,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
         }
     }
 
-    private String processarTemplate(Mensagem mensagem) {
+    protected String processarTemplate(Mensagem mensagem) {
         try {
             Template template = freemarkerConfig.getTemplate(mensagem.getCorpo());
 
