@@ -19,6 +19,7 @@
         <squiggly.version>1.3.18</squiggly.version>
         <jasperreports.version>6.17.0</jasperreports.version>
         <aws-java-skd-s3.version>1.11.1030</aws-java-skd-s3.version>
+        <spring-fox.version>3.0.0</spring-fox.version>
     </properties>
     <dependencies>
 
@@ -124,6 +125,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${spring-fox.version}</version>
         </dependency>
 
     </dependencies>
