@@ -7,11 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.builders.*;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
@@ -22,6 +20,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Configuration
 @EnableSwagger2
@@ -50,6 +49,8 @@ public class SpringFoxConfig {
         return Arrays.asList(new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno do servidor")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(builderModelProblema())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
@@ -62,10 +63,14 @@ public class SpringFoxConfig {
         return Arrays.asList(new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                         .description("Requisição inválida (erro do cliente)")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(builderModelProblema())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno no servidor")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(builderModelProblema())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
@@ -74,6 +79,8 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()))
                         .description("Requisição recusada porque o corpo está em um formato não suportado")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(builderModelProblema())
                         .build()
         );
     }
@@ -82,10 +89,14 @@ public class SpringFoxConfig {
         return Arrays.asList(new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
                         .description("Requisição inválida (erro do cliente)")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(builderModelProblema())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno no servidor")
+                        .representation(MediaType.APPLICATION_JSON)
+                        .apply(builderModelProblema())
                         .build()
         );
     }
@@ -98,6 +109,14 @@ public class SpringFoxConfig {
                 .contact(new Contact("Francisco Sousa", "https://github.com/fsousa1987",
                         "franciscoeds1987@gmail.com"))
                 .build();
+    }
+
+    private Consumer<RepresentationBuilder> builderModelProblema() {
+        return r -> r.model(m->m.name("Problema").referenceModel(ref -> ref.key(
+                k->k.qualifiedModelName(
+                        q->q.name("Problema")
+                                .namespace("com.algaworks.algafood.api.exceptionhandler")
+                ))));
     }
 }
 
