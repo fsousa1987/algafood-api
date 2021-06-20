@@ -16,14 +16,12 @@ import springfox.documentation.service.Response;
 import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
 @Configuration
-@EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SpringFoxConfig {
 
@@ -112,9 +110,9 @@ public class SpringFoxConfig {
     }
 
     private Consumer<RepresentationBuilder> builderModelProblema() {
-        return r -> r.model(m->m.name("Problema").referenceModel(ref -> ref.key(
-                k->k.qualifiedModelName(
-                        q->q.name("Problema")
+        return r -> r.model(m -> m.name("Problema").referenceModel(ref -> ref.key(
+                k -> k.qualifiedModelName(
+                        q -> q.name("Problema")
                                 .namespace("com.algaworks.algafood.api.exceptionhandler")
                 ))));
     }
