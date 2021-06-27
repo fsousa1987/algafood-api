@@ -12,16 +12,16 @@ import java.math.BigDecimal;
 @Setter
 public class RestauranteModel {
 
-    @JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNome.class })
     @ApiModelProperty(example = "1")
+    @JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNome.class })
     private Long id;
 
-    @JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNome.class })
     @ApiModelProperty(example = "Thai Gourmet")
+    @JsonView({ RestauranteView.Resumo.class, RestauranteView.ApenasNome.class })
     private String nome;
 
-    @JsonView(RestauranteView.Resumo.class)
     @ApiModelProperty(example = "12.00")
+    @JsonView(RestauranteView.Resumo.class)
     private BigDecimal taxaFrete;
 
     @JsonView(RestauranteView.Resumo.class)
