@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(path = "/cidades", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,22 +50,26 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping("/{cidadeId}")
     public CidadeModel buscar(@PathVariable Long cidadeId) {
         Cidade cidade = cadastroCidade.buscarOuFalhar(cidadeId);
+
         CidadeModel cidadeModel = cidadeModelAssembler.toModel(cidade);
 
-        cidadeModel.add(linkTo(CidadeController.class)
-                .slash(cidadeModel.getId()).withSelfRel());
+        cidadeModel.add(linkTo(methodOn(CidadeController.class)
+                .buscar(cidadeModel.getId())).withSelfRel());
 
-//        cidadeModel.add(Link.of("https://api.algafood.local:8080/cidades/1"));
+//		cidadeModel.add(linkTo(CidadeController.class)
+//				.slash(cidadeModel.getId()).withSelfRel());
 
-        cidadeModel.add(linkTo(CidadeController.class)
-                .withRel("cidades"));
+        cidadeModel.add(linkTo(methodOn(CidadeController.class)
+                .listar()).withRel("cidades"));
 
-//        cidadeModel.add(Link.of("https://api.algafood.local:8080/cidades", "cidades"));
+//		cidadeModel.add(linkTo(CidadeController.class)
+//				.withRel("cidades"));
 
-        cidadeModel.getEstado().add(linkTo(EstadoController.class)
-                .slash(cidadeModel.getEstado().getId()).withSelfRel());
+        cidadeModel.getEstado().add(linkTo(methodOn(EstadoController.class)
+                .buscar(cidadeModel.getEstado().getId())).withSelfRel());
 
-//        cidadeModel.getEstado().add(Link.of("https://api.algafood.local:8080/estados/1"));
+//		cidadeModel.getEstado().add(linkTo(EstadoController.class)
+//				.slash(cidadeModel.getEstado().getId()).withSelfRel());
 
         return cidadeModel;
     }
